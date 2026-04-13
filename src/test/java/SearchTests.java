@@ -1,13 +1,28 @@
 import org.junit.jupiter.api.Test;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.*;
+import pages.SearchPage;
 
 public class SearchTests {
+
+    SearchPage page = new SearchPage();
+
     @Test
     void successfulSearchTest() {
-        open("https://www.google.com/");
-        $("[name=q]").setValue("selenide").pressEnter();
-        $("[id=search]").shouldHave(text("https://selenide.org"));
+        page.openPage()
+                .search("selenide")
+                .checkResult("selenide.org");
+    }
+
+    @Test
+    void searchInputTest() {
+        page.openPage()
+                .search("selenide")
+                .checkInputValue("selenide");
+    }
+
+    @Test
+    void searchResultsTest() {
+        page.openPage()
+                .search("selenide")
+                .checkResultsVisible();
     }
 }
